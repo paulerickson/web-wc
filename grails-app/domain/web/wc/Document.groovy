@@ -1,32 +1,38 @@
 package web.wc
 
-import org.apache.commons.collections4.Bag
-import org.apache.commons.collections4.bag.HashBag
-
 class Document {
 
-    String contents
-    Bag words
-
-    static constraints = {
-    }
+    static final CharSequence DELIMITERS = " \t\n\r\f,.;:`~!@#%^&*(){}[]<>/?=+|-_"
+    final String contents
+    final Map<String, Integer> words;
 
     public Document(String contents) {
         this.contents = contents
-        this.words = new HashBag(contents.toLowerCase().split(/\W/).findAll {!it.isEmpty()}) // FIXME: make this more efficient
+        this.words = countWords(contents)
         println(words)
     }
 
-    int getUniqueWordCount() {
-        return words.uniqueSet().size()
+    private static Map<String, Integer> countWords(String string) {
+        Map<String, Integer> words = new HashMap<>()
+        parseWords(string).collectEntries(words, {
+            new MapEntry(it, 1 + (words.get(it) ?: 0))
+        })
     }
 
-    int getWordCount() {
+    private static List<String> parseWords(String string) {
+        string.toLowerCase().tokenize(DELIMITERS)
+    }
+
+    int getUniqueWordCount() {
         return words.size()
     }
 
+    int getWordCount() {
+        return words.values().sum()
+    }
+
     int getCount(String word) {
-        return words.getCount(word)
+        return words.get(word) ?: 0
     }
 
     String getTopWord() {
@@ -34,10 +40,11 @@ class Document {
     }
 
     List<String> getTopTenWords() {
-        List<String> topWords = words.uniqueSet().sort({-words.getCount(it)}) // negate count so that it's descending
-        if (topWords.size() < 10)
-            return topWords
-        else
-            return topWords.subList(0, 10)
+        return getTop(10).collect{it.key}
     }
+
+    List<Map.Entry<String, Integer>> getTop(int num) {
+        words.entrySet().sort{-it.value}.take(num) // negate count so that list is descending
+    }
+
 }
