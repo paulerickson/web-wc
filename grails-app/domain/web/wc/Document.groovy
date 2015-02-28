@@ -13,12 +13,12 @@ class Document {
 
     public Document(String contents) {
         this.contents = contents
-        this.words = new HashBag(contents.toLowerCase().split(/\W/).findAll{!it.isEmpty()})
-        print(words)
+        this.words = new HashBag(contents.toLowerCase().split(/\W/).findAll {!it.isEmpty()}) // FIXME: make this more efficient
+        println(words)
     }
 
     int getUniqueWordCount() {
-        return words.unique().size()
+        return words.uniqueSet().size()
     }
 
     int getWordCount() {
@@ -27,5 +27,17 @@ class Document {
 
     int getCount(String word) {
         return words.getCount(word)
+    }
+
+    String getTopWord() {
+        return getTopTenWords().first()
+    }
+
+    List<String> getTopTenWords() {
+        List<String> topWords = words.uniqueSet().sort({-words.getCount(it)}) // negate count so that it's descending
+        if (topWords.size() < 10)
+            return topWords
+        else
+            return topWords.subList(0, 10)
     }
 }

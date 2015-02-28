@@ -27,4 +27,15 @@ class DocumentTest extends GroovyTestCase {
         assertEquals(0, document.getCount("sausage"))
     }
 
+    void "test top word" () {
+        Document document = new Document("Spam, eggs, spam, spam, bacon, and spam")
+        assertEquals("spam", document.getTopWord())
+    }
+
+    void "test top ten words" () {
+        // one 'a', two 'b', three 'c', etc.
+        Document document = new Document("a b b c c c d d d d e e e e e f f f f f f g g g g g g g h h h h h h h h i i i i i i i i i j j j j j j j j j j k k k k k k k k k k k")
+        assertArrayEquals(["k", "j", "i", "h", "g", "f", "e", "d", "c", "b"].toArray(), document.getTopTenWords().toArray())
+    }
+
 }
