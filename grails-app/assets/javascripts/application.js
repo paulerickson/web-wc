@@ -6,6 +6,9 @@
 // to create separate JavaScript files as needed.
 //
 //= require jquery
+//= require bootstrap
+//= require d3
+//= require d3.layout.cloud
 //= require_tree .
 //= require_self
 
