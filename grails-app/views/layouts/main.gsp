@@ -34,7 +34,7 @@
             <div class="collapse navbar-collapse">
             <!-- TODO: fix form css -->
             <!-- putting form outside preserves some the ul styling a little better-->
-                <g:form name="scanForm" action="save">
+                <g:form name="scanForm" controller="document" action="save">
                     <ul class="nav navbar-nav">
                         <li id="list-tab">
                             <g:link action="index" params="[filter: params.filter]">List</g:link>
