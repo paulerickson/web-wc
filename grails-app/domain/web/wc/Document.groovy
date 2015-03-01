@@ -60,7 +60,7 @@ class Document {
     }
 
     List<String> getTopTenWords(boolean filterBoringWords = false) {
-        return getTop(10, filterBoringWords).collect{it.key}
+        return getTop(10, filterBoringWords).collect{it.value + "x \"" + it.key + "\""}
     }
 
     List<Map.Entry<String, Integer>> getTop(int num, boolean filterBoringWords = false) {

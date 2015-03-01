@@ -23,20 +23,19 @@
         </g:if>
         <g:each in="${documentInstanceList}" status="i" var="doc">
             <div class="row" >
-                <span class="badge">
-                    ${doc.getWordCount()} words
-                </span>
-                <span>
-                    <g:link action="show" params="[id: doc.id, filter: params.filter]" >${doc.getShortUrl()}</g:link>
-                </span>
+                <div>
+                    <g:link class="segment1" action="show" params="[id: doc.id, filter: params.filter]" >${doc.getShortUrl()}</g:link>
+                </div>
+                <div>
+                    <span class="badge">
+                        ${doc.getWordCount()} words
+                    </span>
+                    <span>
+                        Top word: <span>${doc.getTopWord(true)}</span>
+                    </span>
+                </div>
+                <br>
             </div>
-            <!--
-            <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-                <br>
-                <div>${doc.getTopTenWords()}</div>
-                <br>
-            </tr>
-            -->
         </g:each>
 
         <div class="pagination">
